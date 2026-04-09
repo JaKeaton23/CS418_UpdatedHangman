@@ -1,0 +1,74 @@
+{
+  "info": {
+    "name": "Hangman API",
+    "description": "Collection for testing the hangman backend API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": [""]
+        }
+      }
+    },
+    {
+      "name": "Get Player (existing)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/player/jayden",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["player", "jayden"]
+        }
+      }
+    },
+    {
+      "name": "Get Player (not found)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/player/nonexistentplayer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["player", "nonexistentplayer"]
+        }
+      }
+    },
+    {
+      "name": "Create/Update Player",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"wins\": 5,\n  \"losses\": 2\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/player/jayden",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["player", "jayden"]
+        }
+      }
+    }
+  ]
+}

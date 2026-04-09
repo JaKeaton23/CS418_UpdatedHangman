@@ -1,0 +1,39 @@
+# docker-compose.yml
+# Runs DynamoDB Local, the backend API, and the frontend all together
+
+services:
+  # Local DynamoDB - no AWS account needed
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    container_name: hangman-dynamodb
+    ports:
+      - "8000:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb -inMemory"
+    working_dir: /home/dynamodblocal
+
+  # Backend Express API
+  backend:
+    build: ./backend
+    container_name: hangman-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - DYNAMODB_ENDPOINT=http://dynamodb-local:8000
+      - AWS_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=fakeKey
+      - AWS_SECRET_ACCESS_KEY=fakeSecret
+      - PORT=3001
+    depends_on:
+      - dynamodb-local
+    # wait for dynamo then create table then start server
+    command: sh -c "sleep 3 && node createTable.js && node server.js"
+
+  # Frontend (served by nginx)
+  frontend:
+    build: ./frontend
+    container_name: hangman-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
